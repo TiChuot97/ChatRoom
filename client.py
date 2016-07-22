@@ -4,6 +4,8 @@ from error_window import ErrorWindow
 from threading import Thread
 import socket
 
+PORT = 12345
+HOST = "1.53.190.110"
 PACKAGE_LEN = 300
 MESSAGE_LEN = 290
 USERNAME_LEN = 10
@@ -114,9 +116,9 @@ def receive_from_server():
 sign_in_window = SignInWindow()
 sign_in_window.root.mainloop()
 
-host_name = sign_in_window.get_host_name()
+host_name = HOST
 user_name = sign_in_window.get_user_name()
-port = sign_in_window.get_port()
+port = PORT
 
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client_socket.connect((host_name, int(port)))

@@ -4,6 +4,7 @@ import threading
 from threading import Thread
 import sys
 
+PORT = 12345
 PACKAGE_LEN = 300
 MESSAGE_LEN = 290
 USERNAME_LEN = 10
@@ -53,7 +54,7 @@ def send_messages():
         for (sock, num) in client_sockets:
             write_bytes_to_socket(PACKAGE_LEN, sock, package)
 
-port = int(raw_input("Port: "))
+port = PORT
 
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
