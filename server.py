@@ -1,11 +1,14 @@
 import socket
 import Queue
 import threading
+from threading import Thread
+import sys
 
 PACKAGE_LEN = 300
 MESSAGE_LEN = 290
 USERNAME_LEN = 10
 MAX_CLIENTS = 100
+CONNECTION_ERROR = "CONN_ERR"
 
 def write_bytes_to_socket(num_bytes, socket, message):
     bytes_sent = 0
@@ -30,13 +33,10 @@ def read_bytes_from_socket(num_bytes, socket):
 def process_client(client_socket, num_client):
     global queue
     while True:
-        (user_name, error) = read_bytes_from_socket(USERNAME_LEN, client_socket)
+        (package, error) = read_bytes_from_socket(PACKAGE_LEN, client_socket)
         if error:
             break
-        (message, error) = read_bytes_from_socket(MESSAGE_LEN, client_socket)
-        if error:
-            break
-        queue.put(user_name + message)
+        queue.put(package)
         cv.acquire()
         cv.notify()
         cv.release()
@@ -57,6 +57,8 @@ port = int(raw_input("Port: "))
 
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
+server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+
 server_socket.bind((socket.gethostname(), port))
 
 server_socket.listen(5)
@@ -73,11 +75,16 @@ client_connected = [1 for x in range(101)]
 
 while True:
     (client_socket, address) = server_socket.accept()
+    new_thread = Thread(target = send_messages, args = ())
+    new_thread.setDaemon(True)
+    new_thread.start()
     if num_clients == MAX_CLIENTS:
         client_socket.close() 
     else:
-        new_thread = thread(target = process_client, args = (client_socket, num_clients + 1), daemon = True)
-        ++num_clients
-        client_sockets.append(client_socket, num_clients)
+        new_thread = Thread(target = process_client, args = (client_socket, num_clients + 1))
+        new_thread.setDaemon(True)
+        new_thread.start()
+        num_clients += 1
+        client_sockets.append((client_socket, num_clients))
 
 
