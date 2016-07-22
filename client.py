@@ -72,9 +72,8 @@ def send_to_server():
 
         # Message padding
         message = user_name + message
-        while (len(message) < MESSAGE_LEN):
+        while (len(message) < PACKAGE_LEN):
             message = message + " "
-
         # Message sending
         error = write_bytes_to_socket(PACKAGE_LEN, client_socket, message)
         if error:
@@ -105,6 +104,11 @@ def receive_from_server():
             connected = False
             return
 
+        while user_name[len(user_name) - 1] == ' ':
+            user_name = user_name[:len(user_name) - 1]
+        while message[len(message) - 1] == ' ':
+            message = message[:len(message) - 1]
+        message = message + "\n"
         chat_window.displayChat(user_name + ": " + message)
     
 sign_in_window = SignInWindow()

@@ -29,7 +29,7 @@ class ChatWindow(object):
         self.num_queue = 0
 
         self.cv = threading.Condition()
-
+        
         self.user_name = user_name
 
     def receiveChat(self):
@@ -43,7 +43,7 @@ class ChatWindow(object):
 
     def displayChat(self, message):
         self.message_box.config(state = NORMAL)
-        self.message_box.insert(END, self.user_name + ": " + message + "\n")
+        self.message_box.insert(END, message) 
         self.message_box.see(END)
         self.message_box.config(state = DISABLED)
 
