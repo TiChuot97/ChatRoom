@@ -66,6 +66,9 @@ def send_to_server():
 
         message = chat_window.message_queue.get()
         chat_window.num_queue -= 1
+
+        if len(message) == 0:
+            continue
         
         # Username padding
         user_name = chat_window.user_name
