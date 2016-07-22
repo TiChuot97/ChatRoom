@@ -45,16 +45,12 @@ def process_client(client_socket, num_client):
 def send_messages():
     global queue, cv
     while True:
-        print "IN"
         cv.acquire()
         while queue.empty():
             cv.wait()
-        print "OUT"
         cv.release() 
         package = queue.get()
-        print package
         for (sock, num) in client_sockets:
-            print num
             write_bytes_to_socket(PACKAGE_LEN, sock, package)
 
 port = int(raw_input("Port: "))
