@@ -29,7 +29,7 @@ def read_bytes_from_socket(num_bytes, socket):
         piece = socket.recv(num_bytes - bytes_read)
         if len(piece) == 0:
             return (CONNECTION_ERROR, True)
-        package = package + piece
+        package = package + piece.decode('utf-8')
         bytes_read += len(piece)
     return (package, False)
 
