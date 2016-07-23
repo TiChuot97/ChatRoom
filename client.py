@@ -1,4 +1,5 @@
-# coding: utf-8
+#!/usr/bin/python
+# -*- coding: <encoding name> -*-
 from chat_window import ChatWindow
 from sign_in_window import SignInWindow
 from error_window import ErrorWindow

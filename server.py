@@ -1,4 +1,5 @@
-# coding: utf-8
+#!/usr/bin/python
+# -*- coding: <encoding name> -*-
 import socket
 import Queue
 import threading
