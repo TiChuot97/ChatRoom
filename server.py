@@ -16,7 +16,7 @@ CONNECTION_ERROR = "CONN_ERR"
 def write_bytes_to_socket(num_bytes, socket, message):
     bytes_sent = 0
     while bytes_sent < num_bytes:
-        sent = socket.send(message[bytes_sent:])
+        sent = socket.send(message[bytes_sent:].encode('utf-8'))
         if sent == 0:
             return True
         bytes_sent += sent

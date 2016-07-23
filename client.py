@@ -38,7 +38,7 @@ def connection_error():
 def write_bytes_to_socket(num_bytes, socket, message):
     bytes_sent = 0
     while bytes_sent < num_bytes:
-        sent = socket.send(message[bytes_sent:])
+        sent = socket.send(message[bytes_sent:].encode('utf-8'))
         if sent == 0:
             return True
         bytes_sent += sent
@@ -117,7 +117,7 @@ def receive_from_server():
             message = message[:len(message) - 1]
         message = message + "\n"
         chat_window.displayChat(user_name + ": " + message)
-    
+
 sign_in_window = SignInWindow()
 sign_in_window.root.mainloop()
 
